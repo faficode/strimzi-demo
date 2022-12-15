@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: akhq
+  labels:
+    app: akhq
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: akhq
+      labels:
+        app: akhq
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: akhq
+          image: tchiotludo/akhq:0.22.0
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: config
+              mountPath: /app/application.yml
+              subPath: application.yml
+          ports:
+            - name: http
+              containerPort: 8080
+              hostPort: 8080
+              protocol: TCP
+            - name: management
+              containerPort: 28081
+              protocol: TCP
+      volumes:
+        - name: config
+          configMap:
+            name: akhq
+  selector:
+    matchLabels:
+      app: akhq

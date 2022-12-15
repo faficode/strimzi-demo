@@ -1,0 +1,17 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnector
+metadata:
+  name: my-sink-connector
+  labels:
+    strimzi.io/cluster: my-connect-cluster
+spec:
+  # full name / name / alias of the class for this connector
+  class: org.apache.kafka.connect.file.FileStreamSinkConnector
+  tasksMax: 2
+  config:
+    file: "/tmp/somefile"
+    key.converter: org.apache.kafka.connect.storage.StringConverter
+    value.converter: org.apache.kafka.connect.storage.StringConverter
+#    key.converter: org.apache.kafka.connect.json.JsonConverter
+#    value.converter: org.apache.kafka.connect.json.JsonConverter
+    topics: kafka-log-tmp1

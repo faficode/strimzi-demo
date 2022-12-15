@@ -1,0 +1,39 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnect
+metadata:
+  name: connect-cluster
+  annotations:
+    strimzi.io/use-connector-resources: "true"
+spec:
+  version: 3.3.1
+  replicas: 1
+  bootstrapServers: simple-cluster-kafka-bootstrap:9093
+  tls:
+    trustedCertificates:
+      - secretName: cluster-cluster-ca-cert
+        certificate: ca.crt
+  config:
+    group.id: connect-cluster
+    offset.storage.topic: connect-cluster-offsets
+    config.storage.topic: connect-cluster-configs
+    status.storage.topic: connect-cluster-status
+    config.storage.replication.factor: -1
+    offset.storage.replication.factor: -1
+    status.storage.replication.factor: -1
+  build:
+    output:
+      type: docker
+      # name of the newly built connect image which contains the configured plugins
+      image: my-registry.io/my-org/my-connect-cluster:latest
+      pushSecret: my-registry-credentials
+    plugins: # maven/zip/tgz/jar possible
+      - name: kafka-connect-file
+        artifacts:
+          - type: maven
+            group: org.apache.kafka
+            artifact: connect-file
+            version: 3.3.1
+      - name: some-other-connector
+        artifacts:
+          - type: zip
+            url: https://some-server/some-other-connector.zip

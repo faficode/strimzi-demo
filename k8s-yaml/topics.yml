@@ -1,0 +1,12 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: simple-cluster
+  name: kafka-log
+spec:
+  config:
+    retention.bytes: -1
+    retention.ms: 3600000
+  partitions: 1
+  replicas: 1

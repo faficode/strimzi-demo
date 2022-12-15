@@ -1,0 +1,9 @@
+resources:
+  - deployment.yml
+  - service.yml
+
+configMapGenerator:
+  - name: akhq
+    behavior: create
+    files:
+      - application.yml

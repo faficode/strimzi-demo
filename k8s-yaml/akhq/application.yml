@@ -1,0 +1,16 @@
+akhq:
+  connections:
+    simple-cluster:
+      properties:
+        bootstrap.servers: simple-cluster-kafka-bootstrap:9092
+  server:
+    access-log:
+      enabled: false
+      name: org.akhq.log.access
+  ui-options:
+    topic:
+      default-view: HIDE_INTERNAL_STREAM
+    topic-data:
+      sort: NEWEST
+  security:
+    default-group: admin

@@ -1,0 +1,17 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnector
+metadata:
+  labels:
+    strimzi.io/cluster: my-sink-connector
+  name: elastic-sink
+spec:
+  class: io.confluent.connect.elasticsearch.ElasticsearchSinkConnector
+  config:
+    connection.url: my-elastic:9200
+    key.converter: org.apache.kafka.connect.storage.StringConverter
+    key.ignore: true
+    read.timeout.ms: 10000
+    max.retries: 50
+    value.converter: org.apache.kafka.connect.storage.StringConverter
+    topics.regex: some-topic.+
+  tasksMax: 2

@@ -1,0 +1,38 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  # important: name needs to stick to kubernetes rules (hostname, ...)
+  name: admin-scram
+  labels:
+    strimzi.io/cluster: simple-cluster
+spec:
+  authentication:
+    type: scram-sha-512
+#---
+#apiVersion: kafka.strimzi.io/v1beta2
+#kind: KafkaUser
+#metadata:
+#  name: normal-user
+#  labels:
+#    strimzi.io/cluster: simple-cluster
+#spec:
+#  authentication:
+#    type: scram-sha-512
+#  authorization:
+#    type: simple
+#    acls:
+#      - resource:
+#          type: group
+#          name: some-prefix
+#          patternType: prefix
+#        operation: Read
+#      - resource:
+#          type: topic
+#          name: some-prefix
+#          patternType: literal
+#        operation: Write
+#      - resource:
+#          type: topic
+#          name: some-prefix
+#          patternType: prefix
+#        operation: Create
